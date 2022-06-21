@@ -1,6 +1,6 @@
 <template>
   <div :style="'background-color:' + color">
-    <b style="font-size: 9rem; color: '#424242'">{{ number }}</b>
+    <b style="font-size: 9rem; color: #424242">{{ number }}</b>
   </div>
 </template>
 
