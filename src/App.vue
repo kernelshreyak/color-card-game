@@ -6,11 +6,12 @@
     <!-- <button :disabled="playerTurn" v-if="gameState == 1" @click="cpuPlay()"> 
       CPU play
     </button> -->
-    <div>{{ playerTurn ? 'Your' : "CPU's" }} turn</div>
+    <div style="margin-top: 10px;">{{ playerTurn ? 'Your' : "CPU's" }} turn</div>
+    <div style="margin-top: 10px;">CPU card count: {{ cpuCards.length }}</div>
 
     <p><b>Pile</b></p>
     <div style="display: flex;justify-content: center;">
-      <Card
+      <ColorCard
         class="card"
         :color="deckTop.color"
         :number="deckTop.number"
@@ -18,9 +19,9 @@
     </div>
 
     <!-- Player's Deck -->
-    <p><b>Your deck</b></p>
+    <p><b>Your deck</b> <br> <button @click="playerDrawCard()">Draw a card</button></p>
     <div class="deck">
-      <Card
+      <ColorCard
         class="card"
         v-for="(card, index) of playerCards"
         :key="index"
@@ -33,7 +34,7 @@
 </template>
 
 <script>
-import Card from './components/Card.vue';
+import ColorCard from './components/ColorCard.vue';
 import { utils } from './lib/utils';
 import { aiOpponent } from './lib/ai';
 import _ from 'lodash';
@@ -42,7 +43,7 @@ import swal from 'sweetalert';
 export default {
   name: 'App',
   components: {
-    Card,
+    ColorCard,
   },
   data() {
     return {
@@ -84,6 +85,9 @@ export default {
       this.cpuCards = tempCards;
       console.log(tempCards);
     },
+    playerDrawCard(){
+        this.playerCards.push(this.drawRandomCard());
+    },
     chooseCard(card) {
       if (!this.playerTurn) {
         // swal("This is CPU's turn","","warning");
@@ -114,7 +118,7 @@ export default {
       setTimeout(() => {
         this.cpuPlay();
         
-      }, 1500);
+      }, 1000);
     },
     cpuPlay() {
       // select a card based on AI algorithm
@@ -122,7 +126,10 @@ export default {
       if (!card) {
         this.cpuCards.push(this.drawRandomCard());
         swal('Picked a new card from deck', '', 'warning');
+        this.playerTurn = true;
+        return;
       } else this.cpuChosenCard = card;
+
       this.deckTop = card;
 
       // remove card from deck

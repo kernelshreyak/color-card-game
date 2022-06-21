@@ -1,12 +1,12 @@
 <template>
   <div :style="'background-color:' + color">
-    <b style="font-size: 30px; color: wheat">{{ number }}</b>
+    <b style="font-size: 9rem; color: '#424242'">{{ number }}</b>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'Card',
+  name: 'ColorCard',
   props: {
     color: String,
     number: Number,
