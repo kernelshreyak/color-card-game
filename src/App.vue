@@ -68,14 +68,14 @@ export default {
     },
     initDeck() {
       let tempCards = [];
-      for (let i = 0; i < this.cardsInDeck - 10; i++) {
+      for (let i = 0; i < this.cardsInDeck; i++) {
         tempCards.push(this.drawRandomCard());
       }
       this.playerCards = tempCards;
     },
     initDeckCPU() {
       let tempCards = [];
-      for (let i = 0; i < this.cardsInDeck + 20; i++) {
+      for (let i = 0; i < this.cardsInDeck; i++) {
         tempCards.push(this.drawRandomCard());
       }
       this.cpuCards = tempCards;
