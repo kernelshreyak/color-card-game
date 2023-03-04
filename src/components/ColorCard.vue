@@ -1,6 +1,6 @@
 <template>
   <div :style="'background-color:' + color">
-    <b style="font-size: 9rem; color: #424242">{{ number }}</b>
+    <b style="font-size: 9rem; color: rgb(181, 170, 170)">{{ number }}</b>
   </div>
 </template>
 
@@ -14,5 +14,3 @@ export default {
   },
 };
 </script>
-
-<style scoped></style>

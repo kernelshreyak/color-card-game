@@ -1,13 +1,11 @@
 <template>
   <div id="app">
-    <h2 align="center">Color Card Game</h2>
-    <button v-if="gameState == 0" @click="startGame()">Start Game</button>
-    <button v-if="gameState != 0" @click="resetGame()">Reset Game</button>
-    <!-- <button :disabled="playerTurn" v-if="gameState == 1" @click="cpuPlay()"> 
-      CPU play
-    </button> -->
-    <div style="margin-top: 10px;">{{ playerTurn ? 'Your' : "CPU's" }} turn</div>
-    <div style="margin-top: 10px;">CPU card count: {{ cpuCards.length }}</div>
+    <h2 class="align-center">Color Card Game</h2>
+    <button class="btn btn-primary" v-if="gameState == 0" @click="startGame()">Start Game</button>
+    <button class="btn btn-warning" v-if="gameState != 0" @click="resetGame()">Reset Game</button>
+   
+    <div class="alert alert-info" style="margin-top: 10px;font-weight: 200;">{{ playerTurn ? 'Your' : "CPU's" }} turn</div>
+    <div class="alert alert-warning" style="margin-top: 10px;">CPU card count: {{ cpuCards.length }}</div>
 
     <p><b>Pile</b></p>
     <div style="display: flex;justify-content: center;">
@@ -19,7 +17,7 @@
     </div>
 
     <!-- Player's Deck -->
-    <p><b>Your deck</b> <br> <button @click="playerDrawCard()">Draw a card</button></p>
+    <br><p><b>Your deck</b> <br> <button class="btn btn-primary" @click="playerDrawCard()">Draw new card</button></p>
     <div class="deck">
       <ColorCard
         class="card"
@@ -70,33 +68,32 @@ export default {
     },
     initDeck() {
       let tempCards = [];
-      for (let i = 0; i < this.cardsInDeck; i++) {
+      for (let i = 0; i < this.cardsInDeck - 10; i++) {
         tempCards.push(this.drawRandomCard());
-        // console.log(this.drawRandomCard());
       }
       this.playerCards = tempCards;
     },
     initDeckCPU() {
       let tempCards = [];
-      for (let i = 0; i < this.cardsInDeck; i++) {
+      for (let i = 0; i < this.cardsInDeck + 20; i++) {
         tempCards.push(this.drawRandomCard());
-        // console.log(this.drawRandomCard());
       }
       this.cpuCards = tempCards;
       console.log(tempCards);
     },
     playerDrawCard(){
+        if(this.playerCards.length == 0) return;
         this.playerCards.push(this.drawRandomCard());
+        this.playerTurn = false;
+        this.cpuPlay();
     },
     chooseCard(card) {
       if (!this.playerTurn) {
-        // swal("This is CPU's turn","","warning");
         return;
       }
 
       // check valid card
       if (!utils.nextCardIsValid(card, this.deckTop)) {
-        // swal('Invalid card', '', 'warning');
         return;
       }
       this.playerChosenCard = card;
@@ -108,7 +105,7 @@ export default {
       );
 
       if (this.playerCards.length == 0 && this.cpuCards.length > 0) {
-        swal('CPU wins!', '', 'warning');
+        swal('You win!', '', 'success');
         this.gameState = 2;
         return;
       }
@@ -125,7 +122,7 @@ export default {
       let card = aiOpponent.getNextCard(this.cpuCards, this.deckTop);
       if (!card) {
         this.cpuCards.push(this.drawRandomCard());
-        swal('Picked a new card from deck', '', 'warning');
+        swal('CPU has drawn a new card', '', 'warning');
         this.playerTurn = true;
         return;
       } else this.cpuChosenCard = card;
@@ -181,6 +178,9 @@ export default {
   width: 100px;
   height: 150px;
   margin: 0.5rem;
-  padding: 0.5rem;
+  cursor: pointer;
+}
+.align-center{
+  text-align: center;
 }
 </style>
